@@ -33,7 +33,7 @@ e **evolução** com novas telas e funcionalidades em **Kotlin + Jetpack Compose
    `WEATHER_API_KEY=sua_chave_aqui`
 3. Sincronize o Gradle e rode o app.
 
-> ⚠️ A chave da OpenWeather pode levar até ~2h para ativar após ser criada.
+> A chave da OpenWeather pode levar até ~2h para ativar após ser criada.
 
 ---
 
