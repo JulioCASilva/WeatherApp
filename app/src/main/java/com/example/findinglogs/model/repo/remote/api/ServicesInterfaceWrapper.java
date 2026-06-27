@@ -13,6 +13,7 @@ public abstract class ServicesInterfaceWrapper {
         @GET("weather")
         Call<Weather> getWeather(@Query("lat") String latitude,
                                      @Query("lon") String longitude,
-                                     @Query("appid") String appid);
+                                     @Query("appid") String appid,
+                                     @Query("lang") String lang);
     }
 }

@@ -40,4 +40,7 @@
     <color name="weather_fog">#BDBDBD</color>
     <color name="weather_fog_dark">#9E9E9E</color>
 
+    <!-- splash -->
+    <color name="splash_background">#1E5BA8</color>
+
 </resources>
