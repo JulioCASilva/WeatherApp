@@ -79,7 +79,7 @@ fun CityCard(
                 }
 
                 Text(
-                    text = "${info.temp.toTempInt()}°",
+                    text = "${info.temp.toCelsius()}°",
                     color = WeatherColors.TextPrimary,
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Light
@@ -96,8 +96,8 @@ fun CityCard(
             Spacer(Modifier.height(12.dp))
 
             Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                Metric(Icons.Outlined.WaterDrop, "${info.humidity.toTempInt()}%")
-                Metric(Icons.Outlined.Speed, "${info.pressure.toTempInt()} hPa")
+                Metric(Icons.Outlined.WaterDrop, "${info.humidity.toWhole()}%")
+                Metric(Icons.Outlined.Speed, "${info.pressure.toWhole()} hPa")
             }
         }
     }

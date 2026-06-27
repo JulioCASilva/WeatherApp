@@ -44,7 +44,7 @@ fun CurrentWeatherSection(
             )
             Row(verticalAlignment = Alignment.Top) {
                 Text(
-                    text = "${info.temp.toTempInt()}",
+                    text = "${info.temp.toCelsius()}",
                     color = WeatherColors.TextPrimary,
                     fontSize = 120.sp,
                     fontWeight = FontWeight.Thin
@@ -67,7 +67,7 @@ fun CurrentWeatherSection(
             fontSize = 22.sp
         )
         Text(
-            text = "H: ${info.temp_max.toTempInt()}°  L: ${info.temp_min.toTempInt()}°",
+            text = "H: ${info.temp_max.toCelsius()}°  L: ${info.temp_min.toCelsius()}°",
             color = WeatherColors.TextSecondary,
             fontSize = 16.sp
         )

@@ -34,4 +34,7 @@ fun Weather.descriptionLabel(): String {
         word.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("pt", "BR")) else it.toString() }
     }
 }
-fun Float.toTempInt(): Int = this.roundToInt()
+
+fun Float.toCelsius(): Int = (this - 273.15f).roundToInt()
+
+fun Float.toWhole(): Int = this.roundToInt()
