@@ -13,12 +13,22 @@ import com.example.findinglogs.view.compose.detail.WeatherDetailScreen
 import com.example.findinglogs.view.compose.home.HomeScreen
 import com.example.findinglogs.viewmodel.MainViewModel
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-
+import androidx.lifecycle.ViewModelProvider
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        val strat = System.currentTimeMillis()
+        splashScreen.setKeepOnScreenCondition {
+            val date = !viewModel.weatherList.value.isNullOrEmpty()
+            val timeout = System.currentTimeMillis() - strat > 3000
+            !date && !timeout
+        }
+
         setContent {
             val viewModel: MainViewModel = viewModel()
             val weatherList: List<Weather> by viewModel.weatherList.observeAsState(emptyList())
