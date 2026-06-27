@@ -31,17 +31,11 @@ fun WeatherTopBar(
     ) {
         Column {
             Text(
-                text = "HOJE",
+                text = "Weather App",
                 color = WeatherColors.TextSecondary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
                 letterSpacing = 2.sp
-            )
-            Text(
-                text = "Weather App",
-                color = WeatherColors.TextPrimary,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
             )
         }
 
@@ -61,7 +55,7 @@ private fun CircleIconButton(
     IconButton(
         onClick = onClick,
         modifier = Modifier
-            .size(46.dp)
+            .size(48.dp)
             .background(WeatherColors.IconCircle, CircleShape)
     ) {
         Icon(icon, contentDescription, tint = WeatherColors.TextPrimary)

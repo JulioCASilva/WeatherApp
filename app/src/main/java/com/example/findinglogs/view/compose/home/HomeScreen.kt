@@ -18,6 +18,7 @@ import com.example.findinglogs.view.compose.components.CurrentWeatherSection
 import com.example.findinglogs.view.compose.components.WeatherTopBar
 import com.example.findinglogs.view.compose.theme.WeatherColors
 import com.example.findinglogs.view.compose.theme.backgroundGradient
+import androidx.compose.foundation.layout.statusBarsPadding
 
 @Composable
 fun HomeScreen(
@@ -35,7 +36,7 @@ fun HomeScreen(
     ) {
         if (weatherList.isEmpty()) {
             Column(
-                Modifier.fillMaxSize(),
+                Modifier.fillMaxSize().statusBarsPadding(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -50,7 +51,7 @@ fun HomeScreen(
         val others = weatherList.drop(1)
 
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().statusBarsPadding(),
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
