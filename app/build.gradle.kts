@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.runtime.livedata)
     implementation(libs.core.splashscreen)
+    implementation(libs.play.services.location)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
