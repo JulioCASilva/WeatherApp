@@ -17,6 +17,7 @@ import com.example.findinglogs.view.compose.components.CityCard
 import com.example.findinglogs.view.compose.components.CurrentWeatherSection
 import com.example.findinglogs.view.compose.components.WeatherTopBar
 import com.example.findinglogs.view.compose.theme.WeatherColors
+import com.example.findinglogs.view.compose.theme.backgroundGradient
 
 @Composable
 fun HomeScreen(
@@ -25,8 +26,12 @@ fun HomeScreen(
     onRefreshClick: () -> Unit = {},
     onCityClick: (Weather) -> Unit = {}
 ) {
+    val background = if (weatherList.isEmpty())
+        WeatherColors.BackgroundGradient
+    else
+        weatherList.first().backgroundGradient()
     Box(
-        Modifier.fillMaxSize().background(WeatherColors.BackgroundGradient)
+        Modifier.fillMaxSize().background(background)
     ) {
         if (weatherList.isEmpty()) {
             Column(
