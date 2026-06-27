@@ -1,7 +1,6 @@
 package com.example.findinglogs.view
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.compose.BackHandler
@@ -14,6 +13,7 @@ import com.example.findinglogs.view.compose.home.HomeScreen
 import com.example.findinglogs.viewmodel.MainViewModel
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import com.example.findinglogs.view.compose.add.AddCityModal
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,12 +35,19 @@ class MainActivity : ComponentActivity() {
             var selected by remember { mutableStateOf<Weather?>(null) }
 
             if (selected == null) {
+                var showAddSheet by remember { mutableStateOf(false) }
                 HomeScreen(
                     weatherList = weatherList,
-                    onAddClick = { Toast.makeText(this, "Em breve", Toast.LENGTH_SHORT).show() },
+                    onAddClick = {showAddSheet = true},
                     onRefreshClick = { viewModel.refresh() },
                     onCityClick = { selected = it }
                 )
+                if(showAddSheet){
+                    AddCityModal(
+                        onDismiss = { showAddSheet = false },
+                        onAddCity = { }
+                    )
+                }
             } else {
                 WeatherDetailScreen(
                     weather = selected!!,
