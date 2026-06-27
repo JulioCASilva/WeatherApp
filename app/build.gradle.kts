@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation(libs.gson)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.runtime.livedata)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
