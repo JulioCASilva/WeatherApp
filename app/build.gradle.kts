@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.compose.material.icons.extended)
     implementation(libs.compose.runtime.livedata)
+    implementation(libs.core.splashscreen)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

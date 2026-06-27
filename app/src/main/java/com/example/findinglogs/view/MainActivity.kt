@@ -12,10 +12,12 @@ import com.example.findinglogs.model.model.Weather
 import com.example.findinglogs.view.compose.detail.WeatherDetailScreen
 import com.example.findinglogs.view.compose.home.HomeScreen
 import com.example.findinglogs.viewmodel.MainViewModel
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel: MainViewModel = viewModel()

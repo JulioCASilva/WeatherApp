@@ -21,6 +21,8 @@ composeBom = "2024.12.01"
 navigationCompose = "2.8.5"
 coilCompose = "2.7.0"
 
+coreSplashscreen = "1.0.1"
+
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "converterScalars" }
@@ -46,6 +48,7 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
 compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
