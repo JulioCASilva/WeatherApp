@@ -17,8 +17,7 @@ import com.example.findinglogs.model.util.Logger;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-
+import java.util.concurrent.atomic.AtomicInteger;
 public class MainViewModel extends AndroidViewModel {
 
     private static final String TAG = MainViewModel.class.getSimpleName();
@@ -52,23 +51,40 @@ public class MainViewModel extends AndroidViewModel {
 
     private void fetchAllForecasts() {
         if (Logger.ISLOGABLE) Logger.d(TAG, "fetchAllForecasts()");
-        Set<String> localizations = new LinkedHashSet<>(mRepository.getLocalizations().values());
-        List<Weather> updatedList = new ArrayList<>();
 
-        for (String latlon : localizations) {
+        List<String> localizations =
+                new ArrayList<>(new LinkedHashSet<>(mRepository.getLocalizations().values()));
+        int total = localizations.size();
+
+        Weather[] results = new Weather[total];
+        AtomicInteger finished = new AtomicInteger(0);
+
+        for (int i = 0; i < total; i++) {
+            final int index = i;
+            String latlon = localizations.get(i);
+
             mRepository.retrieveForecast(latlon, new WeatherCallback() {
                 @Override
                 public void onSuccess(Weather result) {
-                    updatedList.add(result);
-                    if (updatedList.size() == localizations.size()) {
-                        _weatherList.setValue(updatedList);
-                        handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
-                    }
+                    results[index] = result;
+                    onDone();
                 }
 
                 @Override
                 public void onFailure(String error) {
-                    handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
+                    if (Logger.ISLOGABLE) Logger.d(TAG, "onFailure: " + error);
+                    onDone();
+                }
+
+                private void onDone() {
+                    if (finished.incrementAndGet() == total) {
+                        List<Weather> ordered = new ArrayList<>();
+                        for (Weather w : results) {
+                            if (w != null) ordered.add(w);
+                        }
+                        _weatherList.postValue(ordered);
+                        handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
+                    }
                 }
             });
         }

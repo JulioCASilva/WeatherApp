@@ -31,7 +31,7 @@ fun WeatherTopBar(
     ) {
         Column {
             Text(
-                text = "TODAY",
+                text = "HOJE",
                 color = WeatherColors.TextSecondary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
