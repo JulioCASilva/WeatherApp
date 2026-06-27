@@ -2,6 +2,7 @@ package com.example.findinglogs.view.compose.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
@@ -13,12 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.findinglogs.model.model.Weather
+import com.example.findinglogs.view.compose.components.AddCityButton
 import com.example.findinglogs.view.compose.components.CityCard
 import com.example.findinglogs.view.compose.components.CurrentWeatherSection
 import com.example.findinglogs.view.compose.components.WeatherTopBar
 import com.example.findinglogs.view.compose.theme.WeatherColors
 import com.example.findinglogs.view.compose.theme.backgroundGradient
-import androidx.compose.foundation.layout.statusBarsPadding
 
 @Composable
 fun HomeScreen(
@@ -32,6 +33,7 @@ fun HomeScreen(
         WeatherColors.BackgroundGradient
     else
         weatherList.first().backgroundGradient()
+
     Box(
         Modifier.fillMaxSize().background(background)
     ) {
@@ -47,7 +49,6 @@ fun HomeScreen(
             }
             return@Box
         }
-
         val current = weatherList.first()
         val others = weatherList.drop(1)
 
@@ -69,22 +70,30 @@ fun HomeScreen(
                     modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
-            item {
-                Text(
-                    "OUTRAS CIDADES",
-                    color = WeatherColors.TextSecondary,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 2.sp
-                )
-            }
-            itemsIndexed(others) { index, weather ->
-                CityCard(
-                    weather = weather,
-                    onClick = { onCityClick(weather) },
-                    onDelete = { onDeleteCity(weather) },
-                    isCurrentLocation = index == 0
-                )
+
+            if (others.isEmpty()) {
+                item {
+                    Spacer(Modifier.height(8.dp))
+                    AddCityButton(onClick = onAddClick)
+                }
+            } else {
+                item {
+                    Text(
+                        "OUTRAS CIDADES",
+                        color = WeatherColors.TextSecondary,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = 2.sp
+                    )
+                }
+                itemsIndexed(others) { index, weather ->
+                    CityCard(
+                        weather = weather,
+                        onClick = { onCityClick(weather) },
+                        onDelete = { onDeleteCity(weather) },
+                        isCurrentLocation = index == 0
+                    )
+                }
             }
         }
     }

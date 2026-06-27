@@ -66,13 +66,16 @@ public class MainViewModel extends AndroidViewModel {
         refresh();
     }
     private void saveCities() {
-        String joined = android.text.TextUtils.join(";", cities);
+        String joined = cities.isEmpty()
+                ? "EMPTY"
+                : android.text.TextUtils.join(";", cities);
         mRepository.saveString(KEY_CITIES, joined);
     }
 
     private void loadCities() {
         String saved = mRepository.readString(KEY_CITIES);
-        if (saved != null && !saved.isEmpty()) {
+        if ("EMPTY".equals(saved)) {
+        } else if (saved != null && !saved.isEmpty()) {
             cities.addAll(java.util.Arrays.asList(saved.split(";")));
         } else {
             cities.addAll(mRepository.getLocalizations().values());
@@ -85,6 +88,11 @@ public class MainViewModel extends AndroidViewModel {
 
         List<String> localizations = new ArrayList<>(cities);
         int total = localizations.size();
+
+        if (total == 0) {
+            _weatherList.postValue(new ArrayList<>());
+            return;
+        }
 
         Weather[] results = new Weather[total];
         AtomicInteger finished = new AtomicInteger(0);
@@ -125,9 +133,5 @@ public class MainViewModel extends AndroidViewModel {
     protected void onCleared() {
         handler.removeCallbacks(fetchRunnable);
         super.onCleared();
-    }
-
-    public void retrieveForecast(String latLon, WeatherCallback callback) {
-        mRepository.retrieveForecast(latLon, callback);
     }
 }
