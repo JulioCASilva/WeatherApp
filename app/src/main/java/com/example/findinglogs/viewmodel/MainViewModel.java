@@ -29,11 +29,12 @@ public class MainViewModel extends AndroidViewModel {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable fetchRunnable = this::fetchAllForecasts;
     private final LinkedHashSet<String> cities = new LinkedHashSet<>();
+    private static final String KEY_CITIES = "monitored_cities";
 
     public MainViewModel(Application application) {
         super(application);
         mRepository = new Repository(application);
-        cities.addAll(mRepository.getLocalizations().values());
+        loadCities();
         startFetching();
     }
 
@@ -54,13 +55,29 @@ public class MainViewModel extends AndroidViewModel {
     public void addCity(String latLon) {
         if (Logger.ISLOGABLE) Logger.d(TAG, "addCity: " + latLon);
         cities.add(latLon);
+        saveCities();
         refresh();
     }
 
     public void removeCity(String latLon) {
         if (Logger.ISLOGABLE) Logger.d(TAG, "removeCity: " + latLon);
         cities.remove(latLon);
+        saveCities();
         refresh();
+    }
+    private void saveCities() {
+        String joined = android.text.TextUtils.join(";", cities);
+        mRepository.saveString(KEY_CITIES, joined);
+    }
+
+    private void loadCities() {
+        String saved = mRepository.readString(KEY_CITIES);
+        if (saved != null && !saved.isEmpty()) {
+            cities.addAll(java.util.Arrays.asList(saved.split(";")));
+        } else {
+            cities.addAll(mRepository.getLocalizations().values());
+            saveCities();
+        }
     }
 
     private void fetchAllForecasts() {
