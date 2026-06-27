@@ -15,8 +15,9 @@ import com.example.findinglogs.model.repo.remote.api.WeatherCallback;
 import com.example.findinglogs.model.util.Logger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainViewModel extends AndroidViewModel {
 
@@ -43,13 +44,18 @@ public class MainViewModel extends AndroidViewModel {
         fetchAllForecasts();
         handler.postDelayed(fetchRunnable, FETCH_INTERVAL);
     }
+    public void refresh() {
+        if (Logger.ISLOGABLE) Logger.d(TAG, "refresh()");
+        handler.removeCallbacks(fetchRunnable);
+        fetchAllForecasts();
+    }
 
     private void fetchAllForecasts() {
         if (Logger.ISLOGABLE) Logger.d(TAG, "fetchAllForecasts()");
-        HashMap<String, String> localizations = mRepository.getLocalizations();
+        Set<String> localizations = new LinkedHashSet<>(mRepository.getLocalizations().values());
         List<Weather> updatedList = new ArrayList<>();
 
-        for (String latlon : localizations.values()) {
+        for (String latlon : localizations) {
             mRepository.retrieveForecast(latlon, new WeatherCallback() {
                 @Override
                 public void onSuccess(Weather result) {
