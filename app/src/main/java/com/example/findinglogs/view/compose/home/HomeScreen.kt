@@ -25,7 +25,8 @@ fun HomeScreen(
     weatherList: List<Weather>,
     onAddClick: () -> Unit = {},
     onRefreshClick: () -> Unit = {},
-    onCityClick: (Weather) -> Unit = {}
+    onCityClick: (Weather) -> Unit = {},
+    onDeleteCity: (Weather) -> Unit = {}
 ) {
     val background = if (weatherList.isEmpty())
         WeatherColors.BackgroundGradient
@@ -81,6 +82,7 @@ fun HomeScreen(
                 CityCard(
                     weather = weather,
                     onClick = { onCityClick(weather) },
+                    onDelete = { onDeleteCity(weather) },
                     isCurrentLocation = index == 0
                 )
             }

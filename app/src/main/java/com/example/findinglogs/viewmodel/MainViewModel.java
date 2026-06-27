@@ -57,6 +57,12 @@ public class MainViewModel extends AndroidViewModel {
         refresh();
     }
 
+    public void removeCity(String latLon) {
+        if (Logger.ISLOGABLE) Logger.d(TAG, "removeCity: " + latLon);
+        cities.remove(latLon);
+        refresh();
+    }
+
     private void fetchAllForecasts() {
         if (Logger.ISLOGABLE) Logger.d(TAG, "fetchAllForecasts()");
 
@@ -73,6 +79,7 @@ public class MainViewModel extends AndroidViewModel {
             mRepository.retrieveForecast(latlon, new WeatherCallback() {
                 @Override
                 public void onSuccess(Weather result) {
+                    result.setLatLon(latlon);
                     results[index] = result;
                     onDone();
                 }

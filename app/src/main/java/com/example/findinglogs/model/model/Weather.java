@@ -10,6 +10,10 @@ public class Weather {
     private WeatherInfo main;
     private String name;
     private List<WeatherDetail> weather = new ArrayList<>();
+    private String latLon;
+
+    public String getLatLon() { return latLon; }
+    public void setLatLon(String latLon) { this.latLon = latLon; }
 
     public Weather() {
     }

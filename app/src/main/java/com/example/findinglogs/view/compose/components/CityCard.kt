@@ -20,11 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.findinglogs.model.model.Weather
 import com.example.findinglogs.view.compose.theme.WeatherColors
-
+import androidx.compose.material.icons.outlined.Delete
 @Composable
 fun CityCard(
     weather: Weather,
     onClick: () -> Unit,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier,
     isCurrentLocation: Boolean = false
 ) {
@@ -95,9 +96,23 @@ fun CityCard(
             HorizontalDivider(color = WeatherColors.Divider)
             Spacer(Modifier.height(12.dp))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Metric(Icons.Outlined.WaterDrop, "${info.humidity.toWhole()}%")
+                Spacer(Modifier.width(24.dp))
                 Metric(Icons.Outlined.Speed, "${info.pressure.toWhole()} hPa")
+
+                Spacer(Modifier.weight(1f))
+
+                IconButton(onClick = onDelete, modifier = Modifier.size(32.dp)) {
+                    Icon(
+                        Icons.Outlined.Delete, "Remover cidade",
+                        tint = WeatherColors.TextSecondary,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
             }
         }
     }

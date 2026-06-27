@@ -40,7 +40,10 @@ class MainActivity : ComponentActivity() {
                     weatherList = weatherList,
                     onAddClick = {showAddSheet = true},
                     onRefreshClick = { viewModel.refresh() },
-                    onCityClick = { selected = it }
+                    onCityClick = { selected = it },
+                    onDeleteCity = { weather ->
+                        weather.latLon?.let { viewModel.removeCity(it) }
+                    }
                 )
                 if(showAddSheet){
                     AddCityModal(
