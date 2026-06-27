@@ -32,7 +32,7 @@ public class WeatherManager {
         ConnectionManager.getInstance()
                 .getWeatherConnection()
                 .create(ServicesInterfaceWrapper.WeatherService.class)
-                .getWeather(lat, lon, apiKey).enqueue(new Callback<>() {
+                .getWeather(lat, lon, apiKey, "pt_br").enqueue(new Callback<>() {
 
                     @Override
                     public void onResponse(@NonNull Call<Weather> call,
