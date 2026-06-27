@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                 if(showAddSheet){
                     AddCityModal(
                         onDismiss = { showAddSheet = false },
-                        onAddCity = { }
+                        onAddCity = { city -> viewModel.addCity(city.latLon) }
                     )
                 }
             } else {

@@ -28,10 +28,12 @@ public class MainViewModel extends AndroidViewModel {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable fetchRunnable = this::fetchAllForecasts;
+    private final LinkedHashSet<String> cities = new LinkedHashSet<>();
 
     public MainViewModel(Application application) {
         super(application);
         mRepository = new Repository(application);
+        cities.addAll(mRepository.getLocalizations().values());
         startFetching();
     }
 
@@ -49,11 +51,16 @@ public class MainViewModel extends AndroidViewModel {
         fetchAllForecasts();
     }
 
+    public void addCity(String latLon) {
+        if (Logger.ISLOGABLE) Logger.d(TAG, "addCity: " + latLon);
+        cities.add(latLon);
+        refresh();
+    }
+
     private void fetchAllForecasts() {
         if (Logger.ISLOGABLE) Logger.d(TAG, "fetchAllForecasts()");
 
-        List<String> localizations =
-                new ArrayList<>(new LinkedHashSet<>(mRepository.getLocalizations().values()));
+        List<String> localizations = new ArrayList<>(cities);
         int total = localizations.size();
 
         Weather[] results = new Weather[total];
