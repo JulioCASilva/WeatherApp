@@ -14,6 +14,7 @@ import com.example.findinglogs.viewmodel.MainViewModel
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.example.findinglogs.view.compose.add.AddCityModal
+import com.example.findinglogs.view.compose.location.RequestCurrentLocation
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val viewModel: MainViewModel = viewModel()
+            RequestCurrentLocation(viewModel)
             val weatherList: List<Weather> by viewModel.weatherList.observeAsState(emptyList())
             var selected by remember { mutableStateOf<Weather?>(null) }
 

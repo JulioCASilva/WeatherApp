@@ -30,6 +30,7 @@ public class MainViewModel extends AndroidViewModel {
     private final Runnable fetchRunnable = this::fetchAllForecasts;
     private final LinkedHashSet<String> cities = new LinkedHashSet<>();
     private static final String KEY_CITIES = "monitored_cities";
+    private String currentLocation = null;
 
     public MainViewModel(Application application) {
         super(application);
@@ -72,6 +73,12 @@ public class MainViewModel extends AndroidViewModel {
         mRepository.saveString(KEY_CITIES, joined);
     }
 
+    public void setCurrentLocation(String latLon) {
+        if (Logger.ISLOGABLE) Logger.d(TAG, "setCurrentLocation: " + latLon);
+        currentLocation = latLon;
+        refresh();
+    }
+
     private void loadCities() {
         String saved = mRepository.readString(KEY_CITIES);
         if ("EMPTY".equals(saved)) {
@@ -85,10 +92,12 @@ public class MainViewModel extends AndroidViewModel {
 
     private void fetchAllForecasts() {
         if (Logger.ISLOGABLE) Logger.d(TAG, "fetchAllForecasts()");
+        LinkedHashSet<String> all = new LinkedHashSet<>();
+        if (currentLocation != null) all.add(currentLocation);
+        all.addAll(cities);
+        List<String> localizations = new ArrayList<>(all);
 
-        List<String> localizations = new ArrayList<>(cities);
         int total = localizations.size();
-
         if (total == 0) {
             _weatherList.postValue(new ArrayList<>());
             return;
