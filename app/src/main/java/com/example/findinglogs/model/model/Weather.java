@@ -41,6 +41,9 @@ public class Weather {
     public void setWeather(List<WeatherDetail> weather) {
         this.weather = weather;
     }
+    private Sys sys;
+    public Sys getSys() { return sys; }
+    public void setSys(Sys sys) { this.sys = sys; }
 
     @NonNull
     @Override

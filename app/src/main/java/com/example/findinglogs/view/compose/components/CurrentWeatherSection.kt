@@ -16,10 +16,13 @@ import com.example.findinglogs.view.compose.theme.WeatherColors
 @Composable
 fun CurrentWeatherSection(
     weather: Weather,
-    country: String = "Brasil",
     modifier: Modifier = Modifier
 ) {
     val info = weather.main
+    val countryCode = weather.sys?.country.orEmpty()
+    val country = if (countryCode.isNotEmpty())
+        java.util.Locale("", countryCode).getDisplayCountry(java.util.Locale("pt", "BR"))
+    else ""
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -31,7 +34,9 @@ fun CurrentWeatherSection(
             fontSize = 24.sp,
             fontWeight = FontWeight.SemiBold
         )
-        Text(country, color = WeatherColors.TextSecondary, fontSize = 16.sp)
+        if (country.isNotEmpty()) {
+            Text(country, color = WeatherColors.TextSecondary, fontSize = 16.sp)
+        }
 
         Spacer(Modifier.height(24.dp))
 
