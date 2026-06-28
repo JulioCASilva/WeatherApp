@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import com.example.findinglogs.viewmodel.MainViewModel
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 
 @Composable
 fun RequestCurrentLocation(viewModel: MainViewModel) {
@@ -37,11 +36,26 @@ fun RequestCurrentLocation(viewModel: MainViewModel) {
 
 @SuppressLint("MissingPermission")
 private fun fetchCurrentLocation(context: Context, viewModel: MainViewModel) {
-    LocationServices.getFusedLocationProviderClient(context)
-        .getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, CancellationTokenSource().token)
-        .addOnSuccessListener { location ->
-            if (location != null) {
-                viewModel.setCurrentLocation("${location.latitude},${location.longitude}")
-            }
+    val client = LocationServices.getFusedLocationProviderClient(context)
+    client.lastLocation.addOnSuccessListener { last ->
+        if (last != null) {
+            viewModel.setCurrentLocation("${last.latitude},${last.longitude}")
         }
+    }
+    val request = com.google.android.gms.location.LocationRequest.Builder(
+        Priority.PRIORITY_HIGH_ACCURACY, 1000
+    ).setMaxUpdates(1).build()
+
+    client.requestLocationUpdates(
+        request,
+        object : com.google.android.gms.location.LocationCallback() {
+            override fun onLocationResult(result: com.google.android.gms.location.LocationResult) {
+                result.lastLocation?.let {
+                    viewModel.setCurrentLocation("${it.latitude},${it.longitude}")
+                }
+                client.removeLocationUpdates(this)
+            }
+        },
+        android.os.Looper.getMainLooper()
+    )
 }
